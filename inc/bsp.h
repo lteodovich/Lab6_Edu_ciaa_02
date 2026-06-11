@@ -45,6 +45,7 @@ extern "C" {
 /* === Public macros definitions =================================================================================== */
 
 /* === Public data type declarations =============================================================================== */
+
 /**
  * @brief Estructura que representa al poncho.
  */
@@ -56,9 +57,8 @@ typedef struct poncho_s {
     GPIO_dig_in_t f_4;  /**< Puntero a la instancia de GPIO digital in para la tecla 4. */
     GPIO_dig_in_t aceptar;  /**< Puntero a la instancia de GPIO digital in para la tecla aceptar. */
     GPIO_dig_in_t cancelar;  /**< Puntero a la instancia de GPIO digital in para la tecla cancelar. */
-    display_t display; /**< Puntero a la instancia de display multiplexado. */
-}
-const * poncho_t;
+    //display_t display; /**< Puntero a la instancia de display multiplexado. */
+} * poncho_t;
 
 /**
  * @brief Estructura que representa a la placa.
@@ -77,8 +77,6 @@ typedef struct placa_s {
     poncho_t poncho; /**< Puntero a la instancia de poncho. */
 }
 const * const placa_t;
-
-
 
 /* === Public variable declarations ================================================================================ */
 

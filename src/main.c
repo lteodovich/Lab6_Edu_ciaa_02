@@ -124,12 +124,13 @@ static void FlashLed(placa_t self) {
 
 static void SwitchLed(placa_t self) {
     // if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
-    if (GPIO_dig_in_GetState(self->Tec_1)) {
+    if (GPIO_dig_in_GetState(self->poncho->f_4)) {
         // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, true);
         GPIO_dig_out_activate(self->Led_1);
     }
     // if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_2_GPIO, TEC_2_BIT) == 0) {
-    if (GPIO_dig_in_GetState(self->Tec_2)) {
+    // if (GPIO_dig_in_GetState(self->Tec_2)) {
+    if (GPIO_dig_in_GetState(self->poncho->f_3)) {
         // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, false);
         GPIO_dig_out_deactivate(self->Led_1);
     }
@@ -141,7 +142,8 @@ static void ToggleLed(placa_t self) {
 
     // current_state = (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT) == 0);
     // if ((current_state) && (!last_state)) {
-    if (GPIO_dig_in_HasActivated(self->Tec_3)) {
+    // if (GPIO_dig_in_HasActivated(self->Tec_3)) {
+    if (GPIO_dig_in_HasActivated(self->poncho->f_2)) {
         // Chip_GPIO_SetPinToggle(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT);
         GPIO_dig_out_toggle(self->Led_2);
     }
@@ -150,7 +152,7 @@ static void ToggleLed(placa_t self) {
 
 static void TestLed(placa_t self) {
     //if (GPIO_dig_in_GetState(self->Tec_4)) {        
-    if (GPIO_dig_in_GetState(self->poncho->f_4)) {        
+    if (GPIO_dig_in_GetState(self->poncho->f_1)) {
         GPIO_dig_out_activate(self->Led_3);
     } else {        
         GPIO_dig_out_deactivate(self->Led_3);

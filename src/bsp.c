@@ -116,6 +116,7 @@ static void ConfigureLeds(struct placa_s * self);
  */
 static void ConfigureKeys(struct placa_s * self);
 
+
 /**
  * @brief Configura el poncho
  */
@@ -124,7 +125,12 @@ static void ConfiguraPoncho(struct placa_s * self);
 /**
  * @brief Configura las teclas del poncho
  */
-static void PonchoConfigureKeys(struct poncho_s * self);
+static void PonchoConfigureKeys(poncho_t self);
+
+/**
+ * @brief Configura el buzzer del poncho
+ */
+static void PonchoConfigureBuzzer(poncho_t self);
 
 /* === Private variable definitions ============================================================ */
 
@@ -141,17 +147,19 @@ placa_t Placa_create(void) {
     ConfigureLeds(&self);
     ConfigureKeys(&self);
 
-    //ConfiguraPoncho(&self);
+    ConfiguraPoncho(&self);
 
     return &self;
 }
 
 poncho_t Poncho_create(void) {
-    static poncho_t self;
+    static struct poncho_s self;
 
-    PonchoConfigureKeys(self);
+    PonchoConfigureKeys(&self);
 
-    return self;
+    PonchoConfigureBuzzer(&self);
+
+    return &self;
 }
 
 static void ConfigureLeds(struct placa_s * self) {
@@ -189,20 +197,15 @@ static void ConfigureLeds(struct placa_s * self) {
 
 static void ConfigureKeys(struct placa_s * self) {
     Chip_SCU_PinMuxSet(TEC_1_PORT, TEC_1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_1_FUNC);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT, false);
     self->Tec_1 = GPIO_dig_in_create(TEC_1_GPIO, TEC_1_BIT, false);
 
     Chip_SCU_PinMuxSet(TEC_2_PORT, TEC_2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_2_FUNC);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_2_GPIO, TEC_2_BIT, false);
     self->Tec_2 = GPIO_dig_in_create(TEC_2_GPIO, TEC_2_BIT, false);
 
     Chip_SCU_PinMuxSet(TEC_3_PORT, TEC_3_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_3_FUNC);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_3_GPIO, TEC_3_BIT, false);
     self->Tec_3 = GPIO_dig_in_create(TEC_3_GPIO, TEC_3_BIT, false);
 
     Chip_SCU_PinMuxSet(TEC_4_PORT, TEC_4_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | TEC_4_FUNC);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, TEC_4_GPIO, TEC_4_BIT, false);
-    // self->Tec_4 = GPIO_dig_in_create(TEC_4_GPIO, TEC_4_BIT, false);
     self->Tec_4 = GPIO_dig_in_create(TEC_4_GPIO, TEC_4_BIT, false);
 }
 
@@ -210,24 +213,29 @@ static void ConfiguraPoncho(struct placa_s * self) {
     self->poncho = Poncho_create();
 }
 
-static void PonchoConfigureKeys(struct poncho_s * self) {
+static void PonchoConfigureKeys(poncho_t self) {
     Chip_SCU_PinMuxSet(KEY_F1_PORT, KEY_F1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_F1_FUNC);    
-    self->f_1 = GPIO_dig_in_create(KEY_F1_GPIO, KEY_F1_BIT, false);
+    self->f_1 = GPIO_dig_in_create(KEY_F1_GPIO, KEY_F1_BIT, true);
 
     Chip_SCU_PinMuxSet(KEY_F2_PORT, KEY_F2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_F2_FUNC);
-    self->f_2 = GPIO_dig_in_create(KEY_F2_GPIO, KEY_F2_BIT, false);
+    self->f_2 = GPIO_dig_in_create(KEY_F2_GPIO, KEY_F2_BIT, true);
 
     Chip_SCU_PinMuxSet(KEY_F3_PORT, KEY_F3_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_F3_FUNC);
-    self->f_3 = GPIO_dig_in_create(KEY_F3_GPIO, KEY_F3_BIT, false);
+    self->f_3 = GPIO_dig_in_create(KEY_F3_GPIO, KEY_F3_BIT, true);
 
     Chip_SCU_PinMuxSet(KEY_F4_PORT, KEY_F4_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_F4_FUNC);
-    self->f_4 = GPIO_dig_in_create(KEY_F4_GPIO, KEY_F4_BIT, false);
+    self->f_4 = GPIO_dig_in_create(KEY_F4_GPIO, KEY_F4_BIT, true);
 
     Chip_SCU_PinMuxSet(KEY_ACCEPT_PIN, KEY_ACCEPT_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_ACCEPT_FUNC);
-    self->aceptar = GPIO_dig_in_create(KEY_ACCEPT_GPIO, KEY_ACCEPT_BIT, false);
+    self->aceptar = GPIO_dig_in_create(KEY_ACCEPT_GPIO, KEY_ACCEPT_BIT, true);
 
     Chip_SCU_PinMuxSet(KEY_CANCEL_PORT, KEY_CANCEL_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_PULLUP | KEY_CANCEL_FUNC);
-    self->cancelar = GPIO_dig_in_create(KEY_CANCEL_GPIO, KEY_CANCEL_BIT, false);
+    self->cancelar = GPIO_dig_in_create(KEY_CANCEL_GPIO, KEY_CANCEL_BIT, true);
+}
+
+static void PonchoConfigureBuzzer(poncho_t self){
+    Chip_SCU_PinMuxSet(BUZZER_PORT, BUZZER_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | BUZZER_FUNC);
+    self->buzzer = GPIO_dig_out_create(BUZZER_GPIO, BUZZER_BIT);
 }
 
 

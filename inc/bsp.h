@@ -50,40 +50,47 @@ extern "C" {
  * @brief Estructura que representa al poncho.
  */
 typedef struct poncho_s {
-    GPIO_dig_out_t buzzer; /**< Puntero a la instancia de GPIO digital out para el buzzer. */
-    GPIO_dig_in_t f_1;  /**< Puntero a la instancia de GPIO digital in para la tecla 1. */
-    GPIO_dig_in_t f_2;  /**< Puntero a la instancia de GPIO digital in para la tecla 2. */
-    GPIO_dig_in_t f_3;  /**< Puntero a la instancia de GPIO digital in para la tecla 3. */
-    GPIO_dig_in_t f_4;  /**< Puntero a la instancia de GPIO digital in para la tecla 4. */
+    GPIO_dig_out_t buzzer;  /**< Puntero a la instancia de GPIO digital out para el buzzer. */
+    GPIO_dig_in_t f_1;      /**< Puntero a la instancia de GPIO digital in para la tecla 1. */
+    GPIO_dig_in_t f_2;      /**< Puntero a la instancia de GPIO digital in para la tecla 2. */
+    GPIO_dig_in_t f_3;      /**< Puntero a la instancia de GPIO digital in para la tecla 3. */
+    GPIO_dig_in_t f_4;      /**< Puntero a la instancia de GPIO digital in para la tecla 4. */
     GPIO_dig_in_t aceptar;  /**< Puntero a la instancia de GPIO digital in para la tecla aceptar. */
-    GPIO_dig_in_t cancelar;  /**< Puntero a la instancia de GPIO digital in para la tecla cancelar. */
-    display_t display; /**< Puntero a la instancia de display multiplexado. */
+    GPIO_dig_in_t cancelar; /**< Puntero a la instancia de GPIO digital in para la tecla cancelar. */
+    display_t display;      /**< Puntero a la instancia de display multiplexado. */
 } const * poncho_t;
 
 /**
  * @brief Estructura que representa a la placa.
  */
 typedef struct placa_s {
-    GPIO_dig_out_t Led_R; /**< Puntero a la instancia de GPIO digital para el LED rojo. */
-    GPIO_dig_out_t Led_G; /**< Puntero a la instancia de GPIO digital para el LED verde. */
-    GPIO_dig_out_t Led_B; /**< Puntero a la instancia de GPIO digital para el LED azul. */
-    GPIO_dig_out_t Led_1; /**< Puntero a la instancia de GPIO digital para el LED amarillo. */
-    GPIO_dig_out_t Led_2; /**< Puntero a la instancia de GPIO digital para el LED rojo. */
-    GPIO_dig_out_t Led_3; /**< Puntero a la instancia de GPIO digital para el LED verde. */
-    GPIO_dig_in_t Tec_1;  /**< Puntero a la instancia de GPIO digital para la tecla 1. */
-    GPIO_dig_in_t Tec_2;  /**< Puntero a la instancia de GPIO digital para la tecla 2. */
-    GPIO_dig_in_t Tec_3;  /**< Puntero a la instancia de GPIO digital para la tecla 3. */
-    GPIO_dig_in_t Tec_4;  /**< Puntero a la instancia de GPIO digital para la tecla 4. */
-    poncho_t poncho; /**< Puntero a la instancia de poncho. */
-}
-const * const placa_t;
+    GPIO_dig_out_t Led_R; /**< Puntero a la instancia de GPIO digital out para el LED rojo. */
+    GPIO_dig_out_t Led_G; /**< Puntero a la instancia de GPIO digital out para el LED verde. */
+    GPIO_dig_out_t Led_B; /**< Puntero a la instancia de GPIO digital out para el LED azul. */
+    GPIO_dig_out_t Led_1; /**< Puntero a la instancia de GPIO digital out para el LED amarillo. */
+    GPIO_dig_out_t Led_2; /**< Puntero a la instancia de GPIO digital out para el LED rojo. */
+    GPIO_dig_out_t Led_3; /**< Puntero a la instancia de GPIO digital out para el LED verde. */
+    GPIO_dig_in_t Tec_1;  /**< Puntero a la instancia de GPIO digital in para la tecla 1. */
+    GPIO_dig_in_t Tec_2;  /**< Puntero a la instancia de GPIO digital in para la tecla 2. */
+    GPIO_dig_in_t Tec_3;  /**< Puntero a la instancia de GPIO digital in para la tecla 3. */
+    GPIO_dig_in_t Tec_4;  /**< Puntero a la instancia de GPIO digital in para la tecla 4. */
+    poncho_t poncho;      /**< Puntero a la instancia de poncho. */
+} const * const placa_t;
 
 /* === Public variable declarations ================================================================================ */
 
 /* === Public function declarations ================================================================================ */
 
+/**
+ * @brief Crea una instancia de la placa
+ * @return Puntero a la instancia de la placa
+ */
 placa_t Placa_create(void);
 
+/**
+ * @brief Crea una instancia del poncho
+ * @return Puntero a la instancia del poncho
+ */
 poncho_t Poncho_create(void);
 
 /* === End of conditional blocks =================================================================================== */

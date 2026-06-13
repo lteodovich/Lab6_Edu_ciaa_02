@@ -36,11 +36,9 @@ SPDX-License-Identifier: MIT
 #include "poncho.h"
 #include "screen.h"
 
-#include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 /* === Macros definitions ====================================================================== */
 #define LED_R_PORT 2
@@ -107,16 +105,28 @@ SPDX-License-Identifier: MIT
 
 /* === Private function declarations =========================================================== */
 
+/**
+ * @brief Configura los dígitos del display del poncho
+ */
 static void DigitsInit(void);
 
+/**
+ * @brief Configura los segmentos del display del poncho
+ */
 static void SegmentsInit(void);
 
+/**
+ * @brief Función para hacer que se enciendan o apaguen los segmentos del display del poncho
+ */
 static void UpdateSegments(uint8_t segments);
 
+/**
+ * @brief Actualiza el digito activo, activando el transistor en el katodo comun correspondiente
+ */
 static void UpdateDigits(uint8_t digit);
 
 /**
- * @brief Confgira los LEDs de la placa
+ * @brief Configura los LEDs de la placa
  */
 static void ConfigureLeds(struct placa_s * self);
 
@@ -171,9 +181,7 @@ poncho_t Poncho_create(void) {
     static struct poncho_s self;
 
     PonchoConfigureKeys(&self);
-
     PonchoConfigureBuzzer(&self);
-
     PonchoConfigureScreen(&self);
 
     return &self;
@@ -181,34 +189,22 @@ poncho_t Poncho_create(void) {
 
 static void ConfigureLeds(struct placa_s * self) {
     Chip_SCU_PinMuxSet(LED_R_PORT, LED_R_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_R_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_R_GPIO, LED_R_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_R_GPIO, LED_R_BIT, true);
     self->Led_R = GPIO_dig_out_create(LED_R_GPIO, LED_R_BIT);
 
     Chip_SCU_PinMuxSet(LED_G_PORT, LED_G_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_G_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_G_GPIO, LED_G_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_G_GPIO, LED_G_BIT, true);
     self->Led_G = GPIO_dig_out_create(LED_G_GPIO, LED_G_BIT);
 
     Chip_SCU_PinMuxSet(LED_B_PORT, LED_B_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_B_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
     self->Led_B = GPIO_dig_out_create(LED_B_GPIO, LED_B_BIT);
 
     /******************/
     Chip_SCU_PinMuxSet(LED_1_PORT, LED_1_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_1_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_1_GPIO, LED_1_BIT, true);
     self->Led_1 = GPIO_dig_out_create(LED_1_GPIO, LED_1_BIT);
 
     Chip_SCU_PinMuxSet(LED_2_PORT, LED_2_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_2_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_2_GPIO, LED_2_BIT, true);
     self->Led_2 = GPIO_dig_out_create(LED_2_GPIO, LED_2_BIT);
 
     Chip_SCU_PinMuxSet(LED_3_PORT, LED_3_PIN, SCU_MODE_INBUFF_EN | SCU_MODE_INACT | LED_3_FUNC);
-    // Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, false);
-    // Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, LED_3_GPIO, LED_3_BIT, true);
     self->Led_3 = GPIO_dig_out_create(LED_3_GPIO, LED_3_BIT);
 }
 
@@ -316,16 +312,23 @@ static void SegmentsInit(void) {
 
 static void UpdateSegments(uint8_t segments) {
     if (segments == 0x00) {
+        // si no se deben encender segmentos, se apagan todos los segmentos,
+        //  los katodos comunes y el punto
         Chip_GPIO_ClearValue(LPC_GPIO_PORT, DIGITS_GPIO, DIGITS_MASK);
         Chip_GPIO_ClearValue(LPC_GPIO_PORT, SEGMENTS_GPIO, SEGMENTS_MASK);
         Chip_GPIO_SetPinState(LPC_GPIO_PORT, SEGMENT_P_GPIO, SEGMENT_P_BIT, false);
     } else {
+        // si se deben encender segmentos, se encienden los segmentos correspondientes
+        //  al estar en posiciones continguas, se pueden encender todos los segmentos
+        //  con una sola operación de escritura
+        Chip_GPIO_ClearValue(LPC_GPIO_PORT, SEGMENTS_GPIO, SEGMENTS_MASK);
         Chip_GPIO_SetValue(LPC_GPIO_PORT, SEGMENTS_GPIO, segments & SEGMENTS_MASK);
         Chip_GPIO_SetPinState(LPC_GPIO_PORT, SEGMENT_P_GPIO, SEGMENT_P_BIT, (segments & SEGMENT_P));
     }
 }
 
 static void UpdateDigits(uint8_t digit) {
+    Chip_GPIO_ClearValue(LPC_GPIO_PORT, DIGITS_GPIO, DIGITS_MASK);
     Chip_GPIO_SetValue(LPC_GPIO_PORT, DIGITS_GPIO, (1 << (3 - digit)) & DIGITS_MASK);
 }
 

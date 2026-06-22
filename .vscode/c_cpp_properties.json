@@ -1,23 +1,34 @@
 {
     "configurations": [
         {
-            "name": "Win32",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/inc",
-                "${workspaceFolder}/hal/inc",
-                "${workspaceFolder}/hal/src"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE",
-                "EDU_CIAA_NXP"
-            ],
-            "cStandard": "c17",
-            "cppStandard": "gnu++17",
-            "intelliSenseMode": "gcc-arm"
+            "name": "MUJU",
+            "includePath": ["./inc",
+                "./hal/inc",
+                "./muju/board/EDU-CIAA-NXP/inc",
+                "./muju/external/base/arch/arm/cmsis_core",
+                "./muju/external/base/soc/lpc43xx/lpc_open/inc",
+                "./muju/external/base/soc/lpc43xx/lpc_open/inc/config_43xx"],
+            "defines": ["CORE_M4",
+                "USE_DRIVERS",
+                "BOARD=EDU-CIAA-NXP",
+                "MCU=lpc4337-m4",
+                "SOC=lpc43xx",
+                "CPU=cortex-m4f",
+                "ARCH=cortex-m",
+                "RTOS=BAREMETAL",
+                "EDU_CIAA_NXP",
+                "LPC43XX",
+                "LPC4337_M4",
+                "CORTEX_M4F",
+                "CORTEX_M",
+                "BAREMETAL"],
+            "cStandard": "c99",
+            "intelliSenseMode": "${default}",
+            "compilerPath":"C:\\msys64\\ucrt64\\bin\\arm-none-eabi-gcc.exe",
+            "compileCommands":[
+	            "${workspaceFolder}/build/artifacts/compile_commands.json"
+            ]
         }
     ],
-    "version": 4
+	"version": 4
 }

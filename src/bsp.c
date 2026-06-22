@@ -106,6 +106,12 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =========================================================== */
 
 /**
+ * @brief Crea una instancia del poncho
+ * @return Puntero a la instancia del poncho
+ */
+poncho_t Poncho_create(void);
+
+/**
  * @brief Configura los dígitos del display del poncho
  */
 static void DigitsInit(void);

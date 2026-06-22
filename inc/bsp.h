@@ -87,12 +87,6 @@ typedef struct placa_s {
  */
 placa_t Placa_create(void);
 
-/**
- * @brief Crea una instancia del poncho
- * @return Puntero a la instancia del poncho
- */
-poncho_t Poncho_create(void);
-
 /* === End of conditional blocks =================================================================================== */
 
 #ifdef __cplusplus

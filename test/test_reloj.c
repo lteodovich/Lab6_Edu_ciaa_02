@@ -1,11 +1,14 @@
 // Al iniciar el reloj empieza en 00:00 y con hora inválida
 
 #include "unity.h"
+#include "reloj.h"
+
+#include <stdbool.h>
 
 static const uint8_t hora_inicial[6] = {0, 0, 0, 0, 0, 0};
 
 void test_reloj_inicia_invalido(void) {
-    clock_t reloj;
+    reloj_t reloj;
     hora_t hora_actual;
     bool es_hora_valida;
 

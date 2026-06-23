@@ -35,6 +35,7 @@ SPDX-License-Identifier: MIT
 /* === Headers files inclusions ==================================================================================== */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /* === Header for C++ compatibility ================================================================================ */
 
@@ -47,6 +48,9 @@ extern "C" {
 /* === Public data type declarations =============================================================================== */
 
 typedef struct reloj_s * reloj_t;
+
+typedef uint8_t hora_t[6]; // valor mas bajo del arreglo son las centenas de las horas y al final
+// las unidades de segundos. Ej.: 22:11:00 (las 10 pm, 11 minutos) ={2,2,1,1,0,0}
 
 /* === Public variable declarations ================================================================================ */
 

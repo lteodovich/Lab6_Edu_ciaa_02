@@ -3,8 +3,6 @@
 #include "unity.h"
 #include "reloj.h"
 
-#include <stdbool.h>
-
 static const uint8_t hora_inicial[6] = {0, 0, 0, 0, 0, 0};
 
 void test_reloj_inicia_invalido(void) {

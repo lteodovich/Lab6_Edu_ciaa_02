@@ -12,7 +12,7 @@ void test_reloj_inicia_invalido(void) {
 
     reloj = RelojCreate(1, NULL);
 
-    es_hora_valida = GetCurrentTime(reloj, hora_actual);
+    es_hora_valida = RelojGetCurrentTime(reloj, hora_actual);
     TEST_ASSERT_FALSE(es_hora_valida);
     TEST_ASSERT_EQUAL_UINT8_ARRAY(hora_actual, hora_inicial, 6);
 }

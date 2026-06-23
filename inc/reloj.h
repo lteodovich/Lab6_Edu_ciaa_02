@@ -54,6 +54,10 @@ typedef uint8_t hora_t[6]; // valor mas bajo del arreglo son las centenas de las
 
 /* === Public variable declarations ================================================================================ */
 
+reloj_t RelojCreate(uint16_t tiks_per_second, void * alarm_handler);
+
+bool RelojGetCurrentTime(reloj_t reloj, hora_t hora_actual);
+
 /* === Public function declarations ================================================================================ */
 
 /* === End of conditional blocks =================================================================================== */
